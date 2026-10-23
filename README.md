@@ -2,7 +2,7 @@
 
 **Works with:** Edge Delivery Services (aem.page / aem.live sites, as a widget or a block) · AEM as a Cloud Service · AEM 6.x
 
-**Contents:** [Quick start](#quick-start) · [Features](#features) · [SearchBlox setup](#1-searchblox-setup-once) · [EDS](#2a-eds-aemlive) · [AEM](#2b-aem-6x-and-aem-as-a-cloud-service) · [Troubleshooting](#troubleshooting) · [Options](#options) · [Development](#development) · [Third-party notices](#third-party-notices)
+**Contents:** [Quick start](#quick-start) · [SearchBlox setup](#1-searchblox-setup-once) · [EDS](#2a-eds-aemlive) · [AEM](#2b-aem-6x-and-aem-as-a-cloud-service) · [Troubleshooting](#troubleshooting) · [Options](#options) · [Development](#development) · [Third-party notices](#third-party-notices)
 
 A search widget for Adobe Experience Manager (AEM) sites, both Edge Delivery Services (EDS) and classic AEM, powered by the [SearchBlox Search API](https://developer.searchblox.com/reference/new-search-api-restv2apisearchquery). It brings the SearchBlox search plugin's features to a page as one embeddable widget: hybrid search, suggestions, facets, AI overview, AI Mode, a chatbot and more. Plain JavaScript and CSS, no build step and no dependencies.
 
@@ -12,33 +12,7 @@ A search widget for Adobe Experience Manager (AEM) sites, both Edge Delivery Ser
 2. **EDS:** copy `widgets/searchblox-search/` into the site repo, add `widgets/searchblox-search/searchblox-config.json` with `{ "domain": "https://search.example.com", "collections": "1" }`, push, and paste `https://main--<site>--<org>.aem.page/widgets/searchblox-search/searchblox-search.html` on its own line in a page. [Details](#2a-eds-aemlive)
 3. **AEM:** copy `aem-classic/clientlib-searchblox/` into the project's client libraries, set `domain` and `collections` in its `js/searchblox-config.js`, embed `searchblox.search` in the site's client library, deploy, and add `<div class="searchblox-search"></div>` with an Embed component. [Details](#2b-aem-6x-and-aem-as-a-cloud-service)
 
-That gives a working search page. Then turn on more [features](#features) with [options](#options).
-
-## Features
-
-Each feature is turned on with an [option](#options). The SearchBlox column is what has to exist in the SearchBlox console first.
-
-| Feature | What visitors get | Option | SearchBlox needs |
-| --- | --- | --- | --- |
-| Search | Hybrid (keyword + meaning) search with result cards, page numbers and a no-results page with popular searches. An empty search lists everything | `domain`, `collections` | A public collection |
-| Keyword search | Plain keyword matching, with a sort menu (relevance or date, newest or oldest first) | `vectorWeight=0` | — |
-| Suggestions | Suggestions after 3 characters, the typed part in bold | `autosuggest` (on), `smartSuggest` | A SmartSuggest index (optional) |
-| Trending searches | A list shown when the empty search box is focused | `trending` | A collection whose document titles are the searches |
-| Voice search | A microphone in the search box | `voiceSearch` | Speech-to-text, for browsers without their own (Firefox, Edge, Brave) |
-| Facets | Filters beside the results, with selected-filter chips and **Clear all** | `facets` | — |
-| Date facet | Last 24 hours, past week, month or year, or a custom From–To range | `facets=…,lastmodified:Date` | — |
-| Featured results | Promoted results above page 1 | `featured` (on) | Featured results in the console |
-| More like this | A button on web-page results that finds similar pages | always on | — |
-| SmartFAQs | Matching questions above the results and in the suggestions | `smartFaqs` (on) | SmartFAQs generated for the collection |
-| AI overview | An AI answer with key points, sources and related questions | `aiOverview` | An LLM on the collection |
-| AI recommendations | Related pages once a visitor has opened 3 results | `recommendations` | An LLM |
-| LLM-generated fields | Generated titles, descriptions and topics, instead of or beside the page's own | `llmFields` | LLM enrichment of the collection |
-| SearchAI Assist | Summarize, compare or ask about up to 4 picked results | `assist` | An LLM |
-| AI Mode | A conversation in place of the results, with references and follow-up questions | `aiMode` | A chatbot |
-| Chatbot | A chat button at the bottom right | `chatbot`, `chatSuggestions`, `chatReferences` | A chatbot |
-| Settings menus | Search ratio and feature switches beside the search button, for demos and tuning | `settings` | — |
-
-The chatbot's own console settings (greeting, labels, sensitive-data and profanity masking) apply to the chat.
+That gives a working search page. Then turn on more features with [options](#options).
 
 ## 1. SearchBlox setup (once)
 
@@ -48,7 +22,7 @@ The chatbot's own console settings (greeting, labels, sensitive-data and profani
    https://www.mysite.com https://main--mysite--myorg.aem.page https://main--mysite--myorg.aem.live
    ```
    Without this, the browser blocks every request.
-3. Note the collection IDs (for `collections`) and names (for `aiOverview`, `smartSuggest` and `trending`), and set up what the features you want need (see the table above).
+3. Note the collection IDs (for `collections`) and names (for `aiOverview`, `smartSuggest` and `trending`), and set up what the features you want need: the [options](#options) say what each one requires in SearchBlox.
 
 ## 2a. EDS (aem.live)
 
@@ -122,18 +96,20 @@ A `data-*` attribute on an element overrides the site-wide option for that eleme
 | "Set the domain option…" in place of the widget | No `domain`: on EDS, `searchblox-config.json` is missing (or invalid JSON; the console says so) and the link has none; on AEM, `searchblox-config.js` isn't loaded or doesn't set it |
 | The EDS widget link shows as a plain link | The site's boilerplate predates widget support (see [EDS](#2a-eds-aemlive)), or the link isn't alone in its paragraph |
 | Nothing at all on an AEM page | The `searchblox.search` client library isn't embedded or deployed, or the Embed component isn't in HTML mode |
-| A feature doesn't appear | Its option isn't set, or its SearchBlox side isn't set up (see [Features](#features)); the browser console names the failing request |
+| A feature doesn't appear | Its option isn't set, or its SearchBlox side isn't set up (see [Options](#options)); the browser console names the failing request |
 
 ## Options
 
-Option names are camelCase in EDS links, `searchblox-config.json` and AEM's `searchblox-config.js`, dashed in `data-*` attributes. Lists are comma-separated. Booleans take `true` or `false`.
+Option names are camelCase in EDS links, `searchblox-config.json` and AEM's `searchblox-config.js`, dashed in `data-*` attributes. Lists are comma-separated. Booleans take `true` or `false`. **Needs:** says what has to exist in SearchBlox first.
+
+Always on, with no option: result cards with page numbers, a no-results page, selected-filter chips with **Clear all**, and **More like this** on web-page results. An empty search lists everything.
 
 **Search**
 
 | Option | Default | Description |
 | --- | --- | --- |
-| `domain` | required | SearchBlox URL, e.g. `https://search.example.com` |
-| `collections` | all public | Collection IDs to search |
+| `domain` | required | SearchBlox URL, e.g. `https://search.example.com`. **Needs:** the site's address in `cors.allowOrigin` |
+| `collections` | all public | Collection IDs to search. **Needs:** Public collections |
 | `vectorWeight` | `0.2` | Share of meaning-based matching, `0`–`1`. `0` is keyword search, which adds a sort menu |
 | `vectorThreshold` | `0.6` | Minimum similarity for hybrid results, `0`–`1` |
 | `sort` | `relevance` | Initial order: `relevance` (the console's manual ranking first) or `date` |
@@ -149,9 +125,9 @@ Option names are camelCase in EDS links, `searchblox-config.json` and AEM's `sea
 | --- | --- | --- |
 | `autosuggest` | `true` | Suggestions while typing, from 3 characters |
 | `suggestLimit` | `6` | Number of suggestions |
-| `smartSuggest` | none | Collection name whose SmartSuggest index supplies the suggestions; falls back to autocomplete |
-| `trending` | none | Collection name whose document titles are listed as trending searches |
-| `voiceSearch` | `false` | Microphone button in the search box |
+| `smartSuggest` | none | Collection name whose SmartSuggest index supplies the suggestions; falls back to autocomplete. **Needs:** a SmartSuggest index on that collection |
+| `trending` | none | Collection name whose document titles are listed as trending searches, when the empty search box is focused. **Needs:** that collection |
+| `voiceSearch` | `false` | Microphone button in the search box. **Needs:** speech-to-text in SearchBlox, for browsers without their own recognition (Firefox, Edge, Brave) |
 
 **Results and facets**
 
@@ -160,22 +136,22 @@ Option names are camelCase in EDS links, `searchblox-config.json` and AEM's `sea
 | `facets` | none | Facet fields, each with an optional label: `contenttype,keywords:Topics,colname:Collection,lastmodified:Date` |
 | `checkboxFacets` | `topics,keywords` | Facets that allow several values; the others allow one |
 | `dateFacets` | `lastmodified` | Facet fields shown as dates (presets and a custom range) |
-| `featured` | `true` | Featured results on page 1 |
+| `featured` | `true` | Featured results on page 1. **Needs:** featured results set up in the console |
 | `urlDisplay` | `true` | Each result's URL under its title |
 | `newTab` | `false` | Open results in a new tab |
-| `smartFaqs` | `true` | SmartFAQs above the results and in the suggestions |
-| `llmFields` | `off` | LLM-generated fields: `off`, `replace` (generated text, with topic chips) or `both` (the page's own, with a box of the generated) |
+| `smartFaqs` | `true` | SmartFAQs above the results and in the suggestions. **Needs:** SmartFAQs generated for the collections |
+| `llmFields` | `off` | LLM-generated fields: `off`, `replace` (generated text, with topic chips) or `both` (the page's own, with a box of the generated). **Needs:** LLM enrichment of the collection |
 
 **AI**
 
 | Option | Default | Description |
 | --- | --- | --- |
-| `aiOverview` | none | Collection names to answer from |
-| `recommendations` | `false` | AI recommendations after 3 opened results |
-| `assist` | `false` | SearchAI Assist button on each result |
-| `aiMode` | none | Chatbot name for AI Mode. On a search box only, the button opens AI Mode on the results page |
-| `chatbot` | none | Chatbot name for the chat button |
-| `chatSuggestions` | `false` | Suggest SmartFAQ questions in the chat while typing |
+| `aiOverview` | none | Collection names to answer from: an AI answer with key points, sources and related questions above the results. **Needs:** an LLM on those collections |
+| `recommendations` | `false` | AI recommendations after 3 opened results. **Needs:** an LLM |
+| `assist` | `false` | SearchAI Assist button on each result: summarize, compare or ask about up to 4 picked results. **Needs:** an LLM |
+| `aiMode` | none | Chatbot name for AI Mode: a conversation in place of the results, with references and follow-up questions. On a search box only, the button opens AI Mode on the results page. **Needs:** that chatbot |
+| `chatbot` | none | Chatbot name for the chat button at the bottom right. Its console settings (greeting, labels, sensitive-data and profanity masking) apply. **Needs:** that chatbot |
+| `chatSuggestions` | `false` | Suggest SmartFAQ questions in the chat while typing. **Needs:** SmartFAQs |
 | `chatReferences` | `false` | Under each chat answer, the top 2 search results for the question |
 | `settings` | `false` | Search Settings and Plugin Settings menus (for demos; not for visitors) |
 
