@@ -4,6 +4,14 @@
 
 A search widget for Adobe Experience Manager (AEM) sites, both Edge Delivery Services (EDS) and classic AEM, powered by the [SearchBlox Search API](https://developer.searchblox.com/reference/new-search-api-restv2apisearchquery). It brings the SearchBlox search plugin's features to a page as one embeddable widget: hybrid search, suggestions, facets, AI overview, AI Mode, a chatbot and more. Plain JavaScript and CSS, no build step and no dependencies.
 
+## Quick start
+
+1. **SearchBlox:** make the collection Public, and add your site's address to `cors.allowOrigin` (see [SearchBlox setup](#1-searchblox-setup-once)).
+2. **EDS:** copy `widgets/searchblox-search/` into the site repo, add `widgets/searchblox-search/searchblox-config.json` with `{ "domain": "https://search.example.com", "collections": "1" }`, push, and paste `https://main--<site>--<org>.aem.page/widgets/searchblox-search/searchblox-search.html` on its own line in a page. [Details](#2a-eds-aemlive)
+3. **AEM:** copy `aem-classic/clientlib-searchblox/` into the project's client libraries, set `domain` and `collections` in its `js/searchblox-config.js`, embed `searchblox.search` in the site's client library, deploy, and add `<div class="searchblox-search"></div>` with an Embed component. [Details](#2b-aem-6x-and-aem-as-a-cloud-service)
+
+That gives a working search page. Then turn on more [features](#features) with [options](#options).
+
 ## Features
 
 Each feature is turned on with an [option](#options). The SearchBlox column is what has to exist in the SearchBlox console first.
@@ -61,7 +69,7 @@ The chatbot's own console settings (greeting, labels, sensitive-data and profani
    To change an option for this widget only, add it to the link: `…/searchblox-search.html?pageSize=20&aiMode=my-chatbot`. Options in the link override the file. Separate them with `&`, and write `#` as `%23` (e.g. `accent=%23e11d48`). Without the file, put every option, including `domain`, in the link.
 4. Preview and publish.
 
-For a header search box, add a link ending in `?resultsPage=/search` to the `nav` document, and put the full widget on `/search`. A chatbot in the site-wide file shows on every page that has a widget.
+For a header search box, put a widget link ending in `?resultsPage=/search&placeholder=Search` on its own line in the third section of the `nav` document (the boilerplate's tools section, at the right of the header), and put the full widget on `/search`. A short placeholder fits phones, where the box shares the top row with the menu button. A chatbot in the site-wide file shows on every page that has a widget.
 
 The site must be based on an `aem-boilerplate` version from June 2026 or later, which turns `/widgets/` links into widgets. Older sites can copy `blocks/widget/` and `buildWidgetAutoBlocks` from `scripts/scripts.js` of the [current boilerplate](https://github.com/adobe/aem-boilerplate), or use the block below.
 
@@ -87,8 +95,12 @@ The site must be based on an `aem-boilerplate` version from June 2026 or later, 
      aiMode: 'my-chatbot',
    };
    ```
-3. Include the `searchblox.search` category on pages (for example, embed it in the site's main client library), then deploy.
-4. Authors add an **Embed** component in **HTML** mode on the search page:
+3. Load it on every page by adding `searchblox.search` to the `embed` list of the site's base client library. In a project made from the AEM archetype that's `ui.apps/src/main/content/jcr_root/apps/<site>/clientlibs/clientlib-base/.content.xml`:
+   ```xml
+   embed="[core.wcm.components.accordion.v1,…,searchblox.search]"
+   ```
+   Then build and deploy (on AEM as a Cloud Service, push to Cloud Manager and run the deployment pipeline).
+4. Authors add an **Embed** component (from AEM Core Components) in **HTML** mode on the search page:
    ```html
    <div class="searchblox-search"></div>
    ```
@@ -98,6 +110,17 @@ The site must be based on an `aem-boilerplate` version from June 2026 or later, 
    ```
 
 A `data-*` attribute on an element overrides the site-wide option for that element, in dashed form (`data-page-size="20"`, `data-ai-mode=""` to turn AI Mode off there).
+
+## Troubleshooting
+
+| What you see | Usually means |
+| --- | --- |
+| "Search is unavailable right now" on every search, and CORS errors in the browser console | The site's address isn't in SearchBlox's `cors.allowOrigin` (include `http://localhost:3000` for `aem up`), or SearchBlox wasn't restarted after the change |
+| "There is no public collection available to search", or results from unrelated collections | The collections in `collections` aren't Public, or the IDs are wrong. Keyword search reports it; hybrid search falls back to every public collection |
+| "Set the domain option…" in place of the widget | No `domain`: on EDS, `searchblox-config.json` is missing (or invalid JSON; the console says so) and the link has none; on AEM, `searchblox-config.js` isn't loaded or doesn't set it |
+| The EDS widget link shows as a plain link | The site's boilerplate predates widget support (see [EDS](#2a-eds-aemlive)), or the link isn't alone in its paragraph |
+| Nothing at all on an AEM page | The `searchblox.search` client library isn't embedded or deployed, or the Embed component isn't in HTML mode |
+| A feature doesn't appear | Its option isn't set, or its SearchBlox side isn't set up (see [Features](#features)); the browser console names the failing request |
 
 ## Options
 
