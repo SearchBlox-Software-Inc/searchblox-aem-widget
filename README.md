@@ -2,19 +2,28 @@
 
 **Works with:** Edge Delivery Services (aem.page / aem.live sites, as a widget or a block) · AEM as a Cloud Service · AEM 6.x
 
-**Contents:** [Quick start](#quick-start) · [SearchBlox setup](#1-searchblox-setup-once) · [EDS](#2a-eds-aemlive) · [AEM](#2b-aem-6x-and-aem-as-a-cloud-service) · [Troubleshooting](#troubleshooting) · [Options](#options) · [Development](#development) · [Third-party notices](#third-party-notices)
-
 A search widget for Adobe Experience Manager (AEM) sites, both Edge Delivery Services (EDS) and classic AEM, powered by the [SearchBlox Search API](https://developer.searchblox.com/reference/new-search-api-restv2apisearchquery). It brings the SearchBlox search plugin's features to a page as one embeddable widget: hybrid search, suggestions, facets, AI overview, AI Mode, a chatbot and more. Plain JavaScript and CSS, no build step and no dependencies.
+
+**Contents**
+
+1. [Quick start](#quick-start)
+2. [SearchBlox setup](#searchblox-setup-once)
+3. [EDS](#eds-aemlive)
+4. [AEM](#aem-6x-and-aem-as-a-cloud-service)
+5. [Troubleshooting](#troubleshooting)
+6. [Options](#options)
+7. [Development](#development)
+8. [Third-party notices](#third-party-notices)
 
 ## Quick start
 
-1. **SearchBlox:** make the collection Public, and add your site's address to `cors.allowOrigin` (see [SearchBlox setup](#1-searchblox-setup-once)).
-2. **EDS:** copy `widgets/searchblox-search/` into the site repo, add `widgets/searchblox-search/searchblox-config.json` with `{ "domain": "https://search.example.com", "collections": "1" }`, push, and paste `https://main--<site>--<org>.aem.page/widgets/searchblox-search/searchblox-search.html` on its own line in a page. [Details](#2a-eds-aemlive)
-3. **AEM:** copy `aem-classic/clientlib-searchblox/` into the project's client libraries, set `domain` and `collections` in its `js/searchblox-config.js`, embed `searchblox.search` in the site's client library, deploy, and add `<div class="searchblox-search"></div>` with an Embed component. [Details](#2b-aem-6x-and-aem-as-a-cloud-service)
+1. **SearchBlox:** make the collection Public, and add your site's address to `cors.allowOrigin` (see [SearchBlox setup](#searchblox-setup-once)).
+2. **EDS:** copy `widgets/searchblox-search/` into the site repo, add `widgets/searchblox-search/searchblox-config.json` with `{ "domain": "https://search.example.com", "collections": "1" }`, push, and paste `https://main--<site>--<org>.aem.page/widgets/searchblox-search/searchblox-search.html` on its own line in a page. [Details](#eds-aemlive)
+3. **AEM:** copy `aem-classic/clientlib-searchblox/` into the project's client libraries, set `domain` and `collections` in its `js/searchblox-config.js`, embed `searchblox.search` in the site's client library, deploy, and add `<div class="searchblox-search"></div>` with an Embed component. [Details](#aem-6x-and-aem-as-a-cloud-service)
 
 That gives a working search page. Then turn on more features with [options](#options).
 
-## 1. SearchBlox setup (once)
+## SearchBlox setup (once)
 
 1. Make the collections to search **Public**. For AEM or EDS collections, set the Publish Domain / Publisher URL so results link to the live site.
 2. Allow the site's origins in `cors.allowOrigin` in `webapps/ROOT/WEB-INF/web.xml` (space-separated), then restart SearchBlox:
@@ -24,7 +33,7 @@ That gives a working search page. Then turn on more features with [options](#opt
    Without this, the browser blocks every request.
 3. Note the collection IDs (for `collections`) and names (for `aiOverview`, `smartSuggest` and `trending`), and set up what the features you want need: the [options](#options) say what each one requires in SearchBlox.
 
-## 2a. EDS (aem.live)
+## EDS (aem.live)
 
 1. Copy `widgets/searchblox-search/` into the site repo's `/widgets/` folder. The files pass the boilerplate's lint check.
 2. Put the site-wide options in a new file next to them, `widgets/searchblox-search/searchblox-config.json` (camelCase names, as in [Options](#options)), and push:
@@ -56,7 +65,7 @@ The site must be based on an `aem-boilerplate` version from June 2026 or later, 
 | Page Size | 20 |
 | AI Overview | my-collection |
 
-## 2b. AEM (6.x and AEM as a Cloud Service)
+## AEM (6.x and AEM as a Cloud Service)
 
 1. Copy `aem-classic/clientlib-searchblox/` into `ui.apps/src/main/content/jcr_root/apps/<site>/clientlibs/`.
 2. Set the site-wide options in `js/searchblox-config.js`, in camelCase:
@@ -94,7 +103,7 @@ A `data-*` attribute on an element overrides the site-wide option for that eleme
 | "Search is unavailable right now" on every search, and CORS errors in the browser console | The site's address isn't in SearchBlox's `cors.allowOrigin` (include `http://localhost:3000` for `aem up`), or SearchBlox wasn't restarted after the change |
 | "There is no public collection available to search", or results from unrelated collections | The collections in `collections` aren't Public, or the IDs are wrong. Keyword search reports it; hybrid search falls back to every public collection |
 | "Set the domain option…" in place of the widget | No `domain`: on EDS, `searchblox-config.json` is missing (or invalid JSON; the console says so) and the link has none; on AEM, `searchblox-config.js` isn't loaded or doesn't set it |
-| The EDS widget link shows as a plain link | The site's boilerplate predates widget support (see [EDS](#2a-eds-aemlive)), or the link isn't alone in its paragraph |
+| The EDS widget link shows as a plain link | The site's boilerplate predates widget support (see [EDS](#eds-aemlive)), or the link isn't alone in its paragraph |
 | Nothing at all on an AEM page | The `searchblox.search` client library isn't embedded or deployed, or the Embed component isn't in HTML mode |
 | A feature doesn't appear | Its option isn't set, or its SearchBlox side isn't set up (see [Options](#options)); the browser console names the failing request |
 
