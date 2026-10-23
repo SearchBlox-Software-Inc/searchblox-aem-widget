@@ -1,0 +1,15 @@
+{
+  "header": {
+    "collections": "1",
+    "smartSuggest": "my-collection",
+    "trending": "my-trending-collection",
+    "chatbot": "my-chatbot"
+  },
+  "results": {
+    "collections": "1",
+    "smartSuggest": "my-collection",
+    "aiOverview": "my-collection",
+    "trending": "my-trending-collection",
+    "aiMode": "my-chatbot"
+  }
+}

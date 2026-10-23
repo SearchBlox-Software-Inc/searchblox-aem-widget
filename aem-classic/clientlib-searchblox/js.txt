@@ -1,0 +1,3 @@
+#base=js
+searchblox-config.js
+searchblox-search.js

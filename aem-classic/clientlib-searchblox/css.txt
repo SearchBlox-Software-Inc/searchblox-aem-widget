@@ -1,0 +1,2 @@
+#base=css
+searchblox-search.css
