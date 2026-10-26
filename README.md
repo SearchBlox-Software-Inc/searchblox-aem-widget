@@ -4,6 +4,8 @@
 
 A search widget for Adobe Experience Manager (AEM) sites, both Edge Delivery Services (EDS) and classic AEM, powered by the [SearchBlox Search API](https://developer.searchblox.com/reference/new-search-api-restv2apisearchquery). It brings the SearchBlox search plugin's features to a page as one embeddable widget: hybrid search, suggestions, facets, AI overview, AI Mode, a chatbot and more. Plain JavaScript and CSS, no build step and no dependencies.
 
+![A search page on an Edge Delivery Services site: AI overview, SmartFAQs, facets and results](docs/images/searchblox-results.png)
+
 **Contents**
 
 1. [How it works](#how-it-works)
@@ -75,19 +77,11 @@ Authors do this in the site's documents.
 4. Click the paper-plane button at the top right, then **Preview**. The page opens at `https://main--<repo>--<owner>.aem.page/search` with the search widget in place of the link.
 5. When it looks right, click **Publish** in the same menu. The page goes live at `https://main--<repo>--<owner>.aem.live/search`.
 
+![The search document in da.live with the widget link on its own line](docs/images/eds-search-page.png)
+
 **In Google Docs or SharePoint:** create a document named `search` in the site's content folder, paste the same link on its own line, then click **Preview** and **Publish** in the [AEM Sidekick](https://chromewebstore.google.com/detail/aem-sidekick/igkmdomcgoebiipaifhmpfjhbjccggml) browser extension.
 
 To change an option on one page only, add it to that page's link: `…/searchblox-search.html?pageSize=20`. It overrides the settings file.
-
-### 4. Add a search box to the header (optional)
-
-1. Open the site's `nav` document (in the site's root folder). It has three parts separated by horizontal lines: the logo, the menu links and, at the right of the header, the tools.
-2. In the third part, on a line by itself, paste:
-   ```
-   https://main--<repo>--<owner>.aem.page/widgets/searchblox-search/searchblox-search.html?resultsPage=/search&placeholder=Search
-   ```
-   `resultsPage` makes it a search box only, which opens your search page with the results.
-3. Preview and publish the `nav` document.
 
 ### Older EDS sites
 
@@ -100,7 +94,7 @@ The block reads the same `searchblox-config.json`. Add rows (`Page Size` | `20`)
 
 ## AEM
 
-For AEM as a Cloud Service and AEM 6.x sites built with Core Components (a project made from the [AEM project archetype](https://github.com/adobe/aem-project-archetype)). A developer does steps 1 to 4 once; authors do steps 5 and 6.
+For AEM as a Cloud Service and AEM 6.x sites built with Core Components (a project made from the [AEM project archetype](https://github.com/adobe/aem-project-archetype)). A developer does steps 1 to 4 once; authors do step 5.
 
 ### 1. Add the client library to the project
 
@@ -155,16 +149,9 @@ embed="[core.wcm.components.accordion.v1,core.wcm.components.tabs.v1,…,searchb
    ```html
    <div class="searchblox-search"></div>
    ```
+   <!-- Screenshot placeholder: add docs/images/aem-embed-html.png (the Embed component's dialog with Type HTML and the div pasted), then replace this comment with:
+   ![The Embed component's dialog with Type set to HTML](docs/images/aem-embed-html.png) -->
 4. Switch to **Preview** to try it, then publish the page (**Page Information** → **Publish Page**).
-
-### 6. Add a search box to the header (optional)
-
-1. Go to **Experience Fragments**, open your site's folder and edit the **header** fragment.
-2. Add an Embed component as in step 5, with this HTML. Use the search page's path as visitors see it:
-   ```html
-   <div class="searchblox-search" data-results-page="/content/<site>/us/en/search.html"></div>
-   ```
-3. Publish the experience fragment.
 
 To change an option for one widget only, add it to its `<div>` as a dashed `data-` attribute, for example `data-page-size="20"`. It overrides `searchblox-config.js`. If it has no effect, check the published page's source: AEM's HTML filter may have removed the attribute.
 
@@ -185,7 +172,7 @@ Always on, with no option: result cards with page numbers, a no-results page, se
 | `sort` | `relevance` | Initial order: `relevance` (the console's manual ranking first) or `date` |
 | `pageSize` | `10` | Results per page (at most 50 in hybrid search) |
 | `loadMore` | `false` | A **Load more** button instead of page numbers |
-| `resultsPage` | none | Makes the widget a search box only, which goes to this page with `?q=` |
+| `resultsPage` | none | Makes the widget a search box only, which goes to this page with `?q=`. Use it for a search box in the site header (EDS `nav` document, or the AEM header experience fragment) |
 | `placeholder` | `Enter a search term...` | Search box placeholder |
 | `topQueries` | `true` | Popular searches ("Or search for:") when nothing matches |
 
