@@ -140,12 +140,11 @@ embed="[core.wcm.components.accordion.v1,core.wcm.components.tabs.v1,…,searchb
 1. In AEM, go to **Sites**, open your site, select the parent page (for example the language root), then **Create** → **Page**. Pick a template, set the title to `Search` and the name to `search`, and click **Create**.
 2. Open the page in the editor. In a layout container, click **Drag components here**, then the **+** (Insert component) and choose **Embed**.
    If Embed isn't in the list, allow it once in the template: **Tools** → **General** → **Templates** → your template → the layout container's **Policy** → **Allowed Components** → tick **Embed**.
-3. Select the Embed component and click the wrench (**Configure**). Set **Type** to **HTML**, paste the following, and click the tick (**Done**):
+3. Select the Embed component and click the wrench (**Configure**). Set **Type** to **HTML**, paste the following, and click **Done**:
    ```html
    <div class="searchblox-search"></div>
    ```
-   <!-- Screenshot placeholder: add docs/images/aem-embed-html.png (the Embed component's dialog with Type HTML and the div pasted), then replace this comment with:
-   ![The Embed component's dialog with Type set to HTML](docs/images/aem-embed-html.png) -->
+   <img src="docs/images/aem-embed-html.png" alt="The Embed component's dialog with Type set to HTML and the div pasted" width="400">
 4. Switch to **Preview** to try it, then publish the page (**Page Information** → **Publish Page**).
 
 To change an option for one widget only, add it to its `<div>` as a dashed `data-` attribute, for example `data-page-size="20"`. It overrides `searchblox-config.js`. If it has no effect, check the published page's source: AEM's HTML filter may have removed the attribute.
