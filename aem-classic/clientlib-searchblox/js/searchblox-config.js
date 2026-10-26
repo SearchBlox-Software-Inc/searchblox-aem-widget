@@ -3,6 +3,6 @@
 window.SearchBloxConfig = {
   domain: 'https://search.example.com',
   collections: '',
-  facets: 'contenttype,keywords:Topics',
+  facets: 'contenttype,topics,keywords',
   pageSize: 10,
 };

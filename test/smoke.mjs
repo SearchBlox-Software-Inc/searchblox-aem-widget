@@ -23,14 +23,14 @@ if (!domain) {
 const skip = (msg) => console.log(`skip - ${msg}`);
 
 const config = normaliseConfig({
-  domain, collections: col || '', facets: 'contenttype,keywords:Topics', 'page-size': '5',
+  domain, collections: col || '', facets: 'contenttype,keywords:Tags', 'page-size': '5',
 });
 const assert = (cond, msg) => {
   if (!cond) throw new Error(`FAIL: ${msg}`);
   console.log(`ok - ${msg}`);
 };
 
-assert(config.facets[1].label === 'Topics', 'facet labels parse');
+assert(config.facets[1].label === 'Tags' && normaliseConfig({ facets: 'topics' }).facets[0].label === 'Topics', 'facet labels parse');
 assert(buildSearchUrl(config, { query: 'a b' }).includes('public=true'), 'search url is public');
 assert(buildSearchUrl(config, { query: 'a' }).includes('/hybrid-search?') && config.vectorWeight === 0.2 && config.vectorThreshold === 0.6, 'hybrid search is the default');
 const keyword = normaliseConfig({ domain, vectorWeight: '0', pageSize: '80' });

@@ -9,7 +9,7 @@ import { loadSiteConfig } from '../../widgets/searchblox-search/searchblox-searc
  * | SearchBlox Search |                                  |
  * | Domain            | https://search.example.com       |
  * | Collections       | 12, 14                           |
- * | Facets            | contenttype, keywords:Topics     |
+ * | Facets            | contenttype, topics, keywords    |
  * | Page Size         | 10                               |
  * | Autosuggest       | true                             |
  * | Results Page      | /search   (optional: box only)   |
