@@ -10,11 +10,10 @@ A search widget for Adobe Experience Manager (AEM) sites, both Edge Delivery Ser
 2. [SearchBlox setup](#searchblox-setup)
 3. [EDS](#eds)
 4. [AEM](#aem)
-5. [Troubleshooting](#troubleshooting)
-6. [Options](#options)
-7. [Updating](#updating)
-8. [Development](#development)
-9. [Third-party notices](#third-party-notices)
+5. [Options](#options)
+6. [Updating](#updating)
+7. [Development](#development)
+8. [Third-party notices](#third-party-notices)
 
 ## How it works
 
@@ -167,19 +166,7 @@ embed="[core.wcm.components.accordion.v1,core.wcm.components.tabs.v1,…,searchb
    ```
 3. Publish the experience fragment.
 
-To change an option for one widget only, add it to its `<div>` as a dashed `data-` attribute, for example `data-page-size="20"`. It overrides `searchblox-config.js`.
-
-## Troubleshooting
-
-| What you see | Usually means |
-| --- | --- |
-| "Search is unavailable right now" on every search, and CORS errors in the browser console | The address in the browser's address bar isn't in SearchBlox's `cors.allowOrigin` (see [SearchBlox setup](#searchblox-setup)), or SearchBlox wasn't restarted after the change |
-| "There is no public collection available to search", or results from unrelated collections | The collections in `collections` aren't Public, or the IDs are wrong. Keyword search reports it; hybrid search falls back to every public collection |
-| "Set the domain option…" in place of the widget | No `domain`: on EDS, `searchblox-config.json` is missing (or invalid JSON; the console says so) and the link has none; on AEM, `searchblox-config.js` isn't loaded or doesn't set it |
-| The EDS widget link shows as a plain link | The link isn't alone in its paragraph, or the site's boilerplate predates widget support (see [Older EDS sites](#older-eds-sites)) |
-| Nothing at all on an AEM page | The `searchblox.search` client library isn't embedded or deployed (steps 3–4), or the Embed component's type isn't **HTML** |
-| A `data-` option on an AEM `<div>` has no effect | AEM's HTML filter may have removed the attribute: check the published page's source. If it's gone, set the option in `searchblox-config.js` instead |
-| A feature doesn't appear | Its option isn't set, or its SearchBlox side isn't set up (see [Options](#options)); the browser console names the failing request |
+To change an option for one widget only, add it to its `<div>` as a dashed `data-` attribute, for example `data-page-size="20"`. It overrides `searchblox-config.js`. If it has no effect, check the published page's source: AEM's HTML filter may have removed the attribute.
 
 ## Options
 
