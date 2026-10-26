@@ -27,7 +27,7 @@ Once, in SearchBlox: make the collections you want to search [public](https://de
 
 ## EDS
 
-For sites on Edge Delivery Services (`aem.page` / `aem.live`), made from Adobe's [aem-boilerplate](https://github.com/adobe/aem-boilerplate).
+For sites on Edge Delivery Services (`aem.page` / `aem.live`), made from Adobe's [aem-boilerplate](https://github.com/adobe/aem-boilerplate). New to Edge Delivery Services? Adobe's [developer tutorial](https://www.aem.live/developer/tutorial) creates a site from the boilerplate, with Code Sync and Document Authoring, in about 15 minutes.
 
 ### 1. Add the files to the site's code repo
 
@@ -87,7 +87,7 @@ Widget links need an aem-boilerplate version from June 2026 or later. If the lin
 
 ## AEM
 
-For AEM as a Cloud Service and AEM 6.x sites built with Core Components (a project made from the [AEM project archetype](https://github.com/adobe/aem-project-archetype)). A developer does steps 1 to 4 once; authors do step 5.
+For AEM as a Cloud Service and AEM 6.x sites built with Core Components. New to AEM projects? Start from Adobe's [AEM project archetype](https://github.com/adobe/aem-project-archetype), which these steps assume. A developer does steps 1 to 4 once; authors do step 5.
 
 ### 1. Add the client library to the project
 
