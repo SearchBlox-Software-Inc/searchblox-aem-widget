@@ -4,8 +4,6 @@
 
 A search widget for Adobe Experience Manager (AEM) sites, both Edge Delivery Services (EDS) and classic AEM, powered by the [SearchBlox Search API](https://developer.searchblox.com/reference/new-search-api-restv2apisearchquery). It brings the SearchBlox search plugin's features to a page as one embeddable widget: hybrid search, suggestions, facets, AI overview, AI Mode, a chatbot and more. Plain JavaScript and CSS, no build step and no dependencies.
 
-![A search page on an Edge Delivery Services site: AI overview, SmartFAQs, facets and results](docs/images/searchblox-results.png)
-
 **Contents**
 
 1. [How it works](#how-it-works)
