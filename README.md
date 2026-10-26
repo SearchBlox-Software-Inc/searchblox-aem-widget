@@ -1,6 +1,6 @@
 # SearchBlox for Adobe Experience Manager and Edge Delivery Services
 
-**Works with:** Edge Delivery Services (aem.page / aem.live sites, as a widget or a block) · AEM as a Cloud Service · AEM 6.x
+**Works with:** Edge Delivery Services (aem.page / aem.live sites) · AEM as a Cloud Service · AEM 6.x
 
 A search widget for Adobe Experience Manager (AEM) sites, both Edge Delivery Services (EDS) and classic AEM, powered by the [SearchBlox Search API](https://developer.searchblox.com/reference/new-search-api-restv2apisearchquery). It brings the SearchBlox search plugin's features to a page as one embeddable widget: hybrid search, suggestions, facets, AI overview, AI Mode, a chatbot and more. Plain JavaScript and CSS, no build step and no dependencies.
 
@@ -85,12 +85,7 @@ To change an option on one page only, add it to that page's link: `…/searchblo
 
 ### Older EDS sites
 
-Widget links need an aem-boilerplate version from June 2026 or later. If the link stays a plain link on preview, either update the site's `scripts/scripts.js` and `blocks/widget/` from the [current boilerplate](https://github.com/adobe/aem-boilerplate), or use the block instead: also copy `blocks/searchblox-search/` into the site's `blocks/` folder, and add a block table to the page in place of the link:
-
-| SearchBlox Search |
-| --- |
-
-The block reads the same `searchblox-config.json`. Add rows (`Page Size` | `20`) to override options for that block.
+Widget links need an aem-boilerplate version from June 2026 or later. If the link stays a plain link on preview, update the site's `scripts/scripts.js` and `blocks/widget/` from the [current boilerplate](https://github.com/adobe/aem-boilerplate). (Sites that prefer EDS blocks can use `blocks/searchblox-search/` instead: a block named "SearchBlox Search", with optional rows overriding settings.)
 
 ## AEM
 
@@ -128,6 +123,8 @@ window.SearchBloxConfig = {
 Add more [options](#options) here to turn on features, for example `facets: 'contenttype,lastmodified:Date'` or `chatbot: 'my-chatbot'`.
 
 ### 3. Load it on every page
+
+AEM only sends a page the client libraries its template includes. Every page already loads `clientlib-base`, so embedding the widget there loads it everywhere. (Or add `searchblox.search` to a template's page policy under **Client-side libraries** to load it only on pages from that template.)
 
 Open `ui.apps/src/main/content/jcr_root/apps/<site>/clientlibs/clientlib-base/.content.xml` and add `searchblox.search` at the end of its `embed` list:
 
