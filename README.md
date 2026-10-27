@@ -12,12 +12,12 @@ A search widget for Adobe Experience Manager (AEM) sites, both Edge Delivery Ser
 4. [AEM](#aem)
 5. [Options](#options)
 6. [Updating](#updating)
-7. [Development](#development)
+7. [Working on the widget](#working-on-the-widget)
 8. [Third-party notices](#third-party-notices)
 
 ## How it works
 
-1. **SearchBlox** holds the content and answers searches. You allow your site to call it (once).
+1. **SearchBlox** holds the content and answers searches. You allow your site to call it.
 2. **Your site** gets the widget's files and one settings file: the SearchBlox address, which collections to search and which features to turn on.
 3. **Authors** place the widget on a page: a link on its own line in an EDS document, or an Embed component on an AEM page.
 
@@ -29,9 +29,9 @@ Once, in SearchBlox: make the collections you want to search [public](https://de
 
 For sites on Edge Delivery Services (`aem.page` / `aem.live`), made from Adobe's [aem-boilerplate](https://github.com/adobe/aem-boilerplate). New to Edge Delivery Services? Adobe's [developer tutorial](https://www.aem.live/developer/tutorial) creates a site from the boilerplate, with Code Sync and Document Authoring, in about 15 minutes.
 
-### 1. Add the files to the site's code repo
+### 1. Add the files to the site's repo
 
-Copy this repo's `widgets/searchblox-search/` folder into the site's GitHub repo, so it ends up here:
+Copy this repo's `widgets/searchblox-search/` folder into the site's repo, so it ends up here:
 
 ```
 <site repo>/
@@ -48,7 +48,7 @@ Copy this repo's `widgets/searchblox-search/` folder into the site's GitHub repo
 
 ### 2. Add the settings file
 
-Create `widgets/searchblox-search/searchblox-config.json` with your SearchBlox address and collection IDs, then commit and push. Code Sync publishes it to the site within a minute or two.
+Create `widgets/searchblox-search/searchblox-config.json` with your SearchBlox address and collection IDs, then commit and push it to the site's repo. EDS publishes it to the site within a minute or two.
 
 ```json
 {
@@ -65,7 +65,7 @@ Authors do this in the site's documents.
 
 **In Document Authoring (da.live):**
 
-1. Go to `https://da.live/#/<owner>/<repo>` (your GitHub owner and repo names).
+1. Go to `https://da.live/#/<owner>/<repo>` (the owner and repo names from the site's `aem.page` address).
 2. Create a document named `search` (**New** → **Document**).
 3. On a line by itself, paste:
    ```
@@ -77,7 +77,7 @@ Authors do this in the site's documents.
 
 ![The search document in da.live with the widget link on its own line](docs/images/eds-search-page.png)
 
-**In Google Docs or SharePoint:** create a document named `search` in the site's content folder, paste the same link on its own line, then click **Preview** and **Publish** in the [AEM Sidekick](https://chromewebstore.google.com/detail/aem-sidekick/igkmdomcgoebiipaifhmpfjhbjccggml) browser extension.
+**In Google Docs or Word (SharePoint):** create a document named `search` in the site's content folder, paste the same link on its own line, then click **Preview** and **Publish** in the [AEM Sidekick](https://chromewebstore.google.com/detail/aem-sidekick/igkmdomcgoebiipaifhmpfjhbjccggml) browser extension.
 
 To change an option on one page only, add it to that page's link: `…/searchblox-search.html?pageSize=20`. It overrides the settings file.
 
@@ -225,7 +225,7 @@ To move a site to a newer version of the widget, copy the new files over the old
 - **EDS:** the four files of `widgets/searchblox-search/` (not `searchblox-config.json`). Push; it's live within a minute or two.
 - **AEM:** `css/searchblox-search.css` and `js/searchblox-search.js` of the client library (not `js/searchblox-config.js`). Deploy as in step 4.
 
-## Development
+## Working on the widget
 
 ```bash
 node scripts/build-aem.mjs                            # regenerate the AEM client library after changing widgets/
