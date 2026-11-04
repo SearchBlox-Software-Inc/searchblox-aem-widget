@@ -2479,8 +2479,7 @@ function renderResults(root, config, data, state, ui = {}) {
     }) : null,
     el(
       'div',
-      {},
-      el('span', { className: 'sb-badge' }, 'Featured'),
+      { className: 'sb-featured-fields' },
       safeUrl(f.url) ? el('a', {
         href: safeUrl(f.url),
         target,
@@ -2488,7 +2487,10 @@ function renderResults(root, config, data, state, ui = {}) {
         onClick: () => track(config, '/ui/v1/analytics/fr', { uid: f.uid, query: state.query }),
       }, f.title || displayUrl(f.url)) : el('strong', {}, f.title),
       f.description ? el('p', {}, f.description) : null,
+      safeUrl(f.url) ? el('span', { className: 'sb-result-url' }, displayUrl(f.url)) : null,
     ),
+    // Last, so it's read after the title; drawn in the top-right corner.
+    el('span', { className: 'sb-featured-badge' }, 'Featured'),
   )));
 
   if (featured.length) {
@@ -3715,7 +3717,8 @@ function mount(root, rawConfig) {
     controller?.abort();
     controller = new AbortController();
     const mine = controller;
-    input.value = state.query === '*' ? '' : state.query;
+    // An empty search runs as "*" but leaves the box empty; a typed "*" stays.
+    input.value = state.blank ? '' : state.query;
     writeUrlState(config, state);
     // "*" lists everything: there's no question to answer.
     const asked = state.query !== '*';
@@ -3792,7 +3795,7 @@ function mount(root, rawConfig) {
     }
     aiMode?.close();
     run({
-      query: q, page: 1, filters: {}, faq, sort: current?.sort || '', sortdir: current?.sortdir || '',
+      query: q, blank: !query.trim(), page: 1, filters: {}, faq, sort: current?.sort || '', sortdir: current?.sortdir || '',
     });
   };
 
